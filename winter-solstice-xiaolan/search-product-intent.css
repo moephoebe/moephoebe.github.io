@@ -1,0 +1,167 @@
+.intent-grid p i {
+  color: #8291a8;
+  font-size: 8px;
+  font-style: normal;
+}
+
+.analysis-proof {
+  margin: 0 0 9px;
+  padding: 7px 8px;
+  border-radius: 9px;
+  background: #f0f7ff;
+  color: #5276ad;
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.product-intent-list {
+  display: grid;
+  gap: 10px;
+  padding-bottom: 22px;
+}
+
+.product-intent-list[hidden] { display: none; }
+
+.product-card {
+  padding: 12px;
+  border: 1px solid #e1e9f4;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 7px 22px #193e720b;
+}
+
+.product-person {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.product-person > .avatar {
+  width: 39px;
+  height: 39px;
+  flex: none;
+}
+
+.product-person > div:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+}
+
+.product-person b {
+  color: #15233f;
+  font-size: 12px;
+}
+
+.product-person b small {
+  color: #8a97ab;
+  font-size: 8px;
+  font-weight: 400;
+}
+
+.product-person p {
+  display: flex;
+  gap: 4px;
+  margin: 5px 0 0;
+}
+
+.product-person p span {
+  padding: 3px 6px;
+  border-radius: 7px;
+  background: #edf8f3;
+  color: #27926f;
+  font-size: 8px;
+}
+
+.product-person p span + span {
+  background: #edf4ff;
+  color: #4c7cca;
+}
+
+.product-person em {
+  padding: 4px 7px;
+  border-radius: 9px;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.intent-strong {
+  background: #fff0e8;
+  color: #f06a2c;
+}
+
+.intent-medium {
+  background: #f3edff;
+  color: #9b73e9;
+}
+
+.evidence {
+  position: relative;
+  min-height: 42px;
+  margin-top: 9px;
+  padding: 8px 76px 8px 9px;
+  border: 1px dashed #bcd6ff;
+  border-radius: 10px;
+  background: #f7faff;
+}
+
+.evidence b {
+  display: block;
+  margin-bottom: 4px;
+  color: #3479e8;
+  font-size: 8px;
+}
+
+.evidence p {
+  margin: 0;
+  color: #5d708e;
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.evidence strong {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  color: #2b75e7;
+  font-size: 8px;
+}
+
+.product-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.product-actions button {
+  padding: 6px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: #eaf3ff;
+  color: #2774e8;
+  font-size: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.product-actions button:first-child {
+  background: #1769f6;
+  color: #fff;
+}
+
+.product-actions span {
+  margin-left: auto;
+  color: #9aa7b9;
+}
+
+.history-chips button em {
+  margin-left: 3px;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: #eaf3ff;
+  color: #2d79ea;
+  font-size: 7px;
+  font-style: normal;
+}

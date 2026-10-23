@@ -6,17 +6,18 @@
   <title>客户搜索 · 设计方案</title>
   <link rel="stylesheet" href="search-results.css">
   <link rel="stylesheet" href="search-ai.css">
+  <link rel="stylesheet" href="search-product-intent.css">
 </head>
 <body>
   <main class="search-demo">
     <section class="scheme" aria-label="搜索方案说明">
       <span class="scheme-kicker">SEARCH EXPERIENCE</span>
-      <h1>一个搜索入口，<br><em>找到客户，也找到对话。</em></h1>
-      <p>既支持姓名、手机号等精确搜索，也能让小蓝理解自然语言，自动组合客户标签、联系记录和经营机会。</p>
+      <h1>搜索一个产品，<br><em>找到真正有意向的人。</em></h1>
+      <p>输入产品名称，小蓝会理解搜索意图，并综合咨询、沟通、保单与内容互动，形成可直接经营的客户名单。</p>
       <div class="scheme-list">
-        <article><i>01</i><div><b>输入更轻松</b><small>历史搜索与常用条件减少重复输入</small></div></article>
-        <article><i>02</i><div><b>结果更清楚</b><small>分类计数、关键词高亮、信息分层</small></div></article>
-        <article><i>03</i><div><b>AI 更懂业务</b><small>理解经营意图，解释匹配原因并支持追问</small></div></article>
+        <article><i>01</i><div><b>产品名就是搜索条件</b><small>输入“恒赢”，自动识别为保险产品</small></div></article>
+        <article><i>02</i><div><b>意向判断有依据</b><small>展示咨询、会话和内容互动等证据</small></div></article>
+        <article><i>03</i><div><b>名单可以直接经营</b><small>按意向强弱排序，并给出下一步动作</small></div></article>
       </div>
       <button class="replay" id="replayBtn">↻ 重置搜索演示</button>
     </section>
@@ -29,12 +30,12 @@
           <div class="titlebar"><button class="back" aria-label="返回">‹</button><strong>搜索</strong><span></span></div>
           <div class="searchbox focused" id="searchBox">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m15.5 15.5 5 5"></path></svg>
-            <input id="searchInput" value="李玉真" placeholder="搜索客户姓名、手机号或聊天内容" autocomplete="off">
+            <input id="searchInput" value="李玉真" placeholder="搜索客户姓名、产品名称或手机号" autocomplete="off">
             <button class="clear" id="clearBtn" aria-label="清空搜索">×</button>
           </div>
           <div class="ai-control" aria-label="AI 搜索设置">
             <button class="ai-switch" id="aiSwitch" role="switch" aria-checked="false"><i></i></button>
-            <div><b>AI 搜索</b><small id="aiHint">开启后，小蓝可以理解经营场景</small></div>
+            <div><b>AI 搜索</b><small id="aiHint">开启后，可按产品意向找到客户</small></div>
             <button class="ai-submit" id="aiSubmit">搜索</button>
           </div>
         </header>
@@ -50,20 +51,40 @@
           <section class="ai-loading" id="aiLoading" hidden>
             <div class="ai-orbit"><span class="ai-avatar"></span><i></i><i></i></div>
             <b id="aiLoadingTitle">小蓝正在理解你的搜索意图</b>
-            <p id="aiLoadingText">识别客户对象与经营条件...</p>
+            <p id="aiLoadingText">识别产品名称与搜索目标...</p>
             <div class="thinking-steps"><span class="active">理解问题</span><span>关联数据</span><span>智能排序</span></div>
           </section>
 
           <section class="ai-analysis" id="aiAnalysis" hidden>
-            <header><span class="ai-avatar"></span><div><b>小蓝已理解你的搜索意图</b><small>基于客户档案、沟通记录与保单信息</small></div><em>92%</em></header>
+            <header><span class="ai-avatar"></span><div><b>小蓝已理解你的搜索意图</b><small>正在寻找对“恒赢”有购买意向的客户</small></div><em>92%</em></header>
             <div class="intent-grid">
-              <span>搜索对象</span><p><b>客户</b></p>
-              <span>客户条件</span><p><b>高客</b><b>本月生日</b><b>30天未联系</b></p>
-              <span>排序方式</span><p>优先展示最值得联系的客户</p>
+              <span>识别产品</span><p><b>恒赢</b><i>产品名称</i></p>
+              <span>搜索对象</span><p><b>客户</b><b>潜客</b></p>
+              <span>判断依据</span><p>保单 · 咨询记录 · 微信备注 · 近30天沟通</p>
+              <span>排序方式</span><p>按购买意向强弱智能排序</p>
             </div>
-            <div class="ai-followups"><button data-ai-refine="只看有体检意向的客户">＋ 有体检意向</button><button data-ai-refine="只看有未读消息的客户">＋ 有未读消息</button><button data-ai-refine="按最近联系排序">＋ 按最近联系</button></div>
+            <div class="analysis-proof">✦ 不是关键词匹配：小蓝综合客户行为判断产品意向</div>
+            <div class="ai-followups"><button data-ai-refine="只看强意向客户">＋ 强意向</button><button data-ai-refine="只看潜客">＋ 只看潜客</button><button data-ai-refine="只看近30天有互动的客户">＋ 近30天有互动</button></div>
           </section>
           <div class="result-summary"><span>找到 8 条相关结果</span><button id="filterBtn">筛选⌄</button></div>
+
+          <section class="product-intent-list" id="productIntentList" hidden>
+            <article class="product-card">
+              <div class="product-person"><div class="avatar avatar-agent"></div><div><b>张伟 <small>男 · 42岁</small></b><p><span>高潜 32℃</span><span>已加保</span></p></div><em class="intent-strong">强意向</em></div>
+              <div class="evidence"><b>✦ 意向依据</b><p>两次咨询“恒赢”的收益与保障期限，近 7 天查看产品资料 3 次</p><strong>匹配度 96%</strong></div>
+              <div class="product-actions"><button data-toast="已进入与张伟的会话">联系客户</button><button data-toast="已为张伟生成恒赢沟通话术">生成话术</button><span>›</span></div>
+            </article>
+            <article class="product-card">
+              <div class="product-person"><div class="avatar avatar-li"></div><div><b>李娜 <small>女 · 36岁</small></b><p><span>潜客</span><span>近期活跃</span></p></div><em class="intent-strong">强意向</em></div>
+              <div class="evidence"><b>✦ 意向依据</b><p>主动咨询追加保费，并参加“恒赢”产品直播，询问投保门槛</p><strong>匹配度 89%</strong></div>
+              <div class="product-actions"><button data-toast="已进入与李娜的会话">联系客户</button><button data-toast="已准备恒赢产品资料">发产品资料</button><span>›</span></div>
+            </article>
+            <article class="product-card">
+              <div class="product-person"><div class="avatar avatar-rain"></div><div><b>王晨 <small>男 · 45岁</small></b><p><span>老客户</span><span>保单 2 件</span></p></div><em class="intent-medium">中意向</em></div>
+              <div class="evidence"><b>✦ 意向依据</b><p>微信沟通提到养老规划，并点击“恒赢”相关文章 2 次</p><strong>匹配度 83%</strong></div>
+              <div class="product-actions"><button data-toast="已进入与王晨的会话">联系客户</button><button data-toast="已添加王晨到待跟进">加入待跟进</button><span>›</span></div>
+            </article>
+          </section>
 
           <section class="result-group" data-kind="customer">
             <header><b>客户</b><span>3</span><button data-tab-link="customer">查看全部</button></header>
@@ -106,9 +127,9 @@
         </section>
 
         <section class="search-start" id="searchStart" hidden>
-          <div class="start-block"><header><b>最近搜索</b><button id="clearHistory">清空</button></header><div class="history-chips"><button>李玉真</button><button>本月生日</button><button>待回访</button></div></div>
+          <div class="start-block"><header><b>最近搜索</b><button id="clearHistory">清空</button></header><div class="history-chips"><button>李玉真</button><button>恒赢 <em>产品</em></button><button>待回访</button></div></div>
           <div class="start-block"><header><b>常用搜索</b></header><div class="common-grid"><button data-query="高客"><i>♛</i><span>高客客户<small>26 人</small></span></button><button data-query="本月生日"><i>♨</i><span>本月生日<small>5 人</small></span></button><button data-query="待回访"><i>✓</i><span>待回访<small>12 人</small></span></button><button data-query="体检"><i>＋</i><span>体检意向<small>8 人</small></span></button></div></div>
-          <div class="search-tip"><i>✦</i><p><b>搜索小技巧</b><small>除了姓名和手机号，也可以搜索“本月生日”“高客”等客户标签。</small></p></div>
+          <div class="search-tip"><i>✦</i><p><b>试试 AI 产品搜索</b><small>输入“恒赢”，找到对该产品有购买意向的客户。</small></p></div>
         </section>
 
         <section class="empty-state" id="emptyState" hidden>
@@ -131,7 +152,7 @@
       <button class="state" data-state="start"><i>02</i><div><b>搜索前</b><small>历史搜索与快捷条件</small></div></button>
       <button class="state" data-state="customer"><i>03</i><div><b>分类结果</b><small>聚焦客户，减少信息干扰</small></div></button>
       <button class="state" data-state="empty"><i>04</i><div><b>无结果</b><small>提供明确改写建议</small></div></button>
-      <button class="state" data-state="ai"><i>05</i><div><b>AI 搜索</b><small>理解意图、解释结果、继续追问</small></div></button>
+      <button class="state" data-state="ai"><i>05</i><div><b>AI 产品意向搜索</b><small>搜产品，生成高意向客户名单</small></div></button>
       <div class="principle"><b>设计原则</b><p>首屏先给答案，再给筛选；标签使用业务语言，不让代理人理解系统术语。</p></div>
     </aside>
   </main>
