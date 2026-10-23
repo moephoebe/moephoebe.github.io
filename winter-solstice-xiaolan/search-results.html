@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>客户搜索 · 设计方案</title>
   <link rel="stylesheet" href="search-results.css">
+  <link rel="stylesheet" href="search-ai.css">
 </head>
 <body>
   <main class="search-demo">
     <section class="scheme" aria-label="搜索方案说明">
       <span class="scheme-kicker">SEARCH EXPERIENCE</span>
       <h1>一个搜索入口，<br><em>找到客户，也找到对话。</em></h1>
-      <p>搜索姓名、手机号、标签或聊天内容，结果按客户、会话与群聊分组，关键词高亮并直接提供下一步动作。</p>
+      <p>既支持姓名、手机号等精确搜索，也能让小蓝理解自然语言，自动组合客户标签、联系记录和经营机会。</p>
       <div class="scheme-list">
         <article><i>01</i><div><b>输入更轻松</b><small>历史搜索与常用条件减少重复输入</small></div></article>
         <article><i>02</i><div><b>结果更清楚</b><small>分类计数、关键词高亮、信息分层</small></div></article>
-        <article><i>03</i><div><b>动作更直接</b><small>从结果直接发消息或查看客户详情</small></div></article>
+        <article><i>03</i><div><b>AI 更懂业务</b><small>理解经营意图，解释匹配原因并支持追问</small></div></article>
       </div>
       <button class="replay" id="replayBtn">↻ 重置搜索演示</button>
     </section>
@@ -31,8 +32,10 @@
             <input id="searchInput" value="李玉真" placeholder="搜索客户姓名、手机号或聊天内容" autocomplete="off">
             <button class="clear" id="clearBtn" aria-label="清空搜索">×</button>
           </div>
-          <div class="quick-filters" aria-label="快捷筛选">
-            <button data-query="高客">高客</button><button data-query="本月生日">本月生日</button><button data-query="待回访">待回访</button>
+          <div class="ai-control" aria-label="AI 搜索设置">
+            <button class="ai-switch" id="aiSwitch" role="switch" aria-checked="false"><i></i></button>
+            <div><b>AI 搜索</b><small id="aiHint">开启后，小蓝可以理解经营场景</small></div>
+            <button class="ai-submit" id="aiSubmit">搜索</button>
           </div>
         </header>
 
@@ -44,6 +47,22 @@
         </nav>
 
         <section class="results" id="results" aria-live="polite">
+          <section class="ai-loading" id="aiLoading" hidden>
+            <div class="ai-orbit"><span class="ai-avatar"></span><i></i><i></i></div>
+            <b id="aiLoadingTitle">小蓝正在理解你的搜索意图</b>
+            <p id="aiLoadingText">识别客户对象与经营条件...</p>
+            <div class="thinking-steps"><span class="active">理解问题</span><span>关联数据</span><span>智能排序</span></div>
+          </section>
+
+          <section class="ai-analysis" id="aiAnalysis" hidden>
+            <header><span class="ai-avatar"></span><div><b>小蓝已理解你的搜索意图</b><small>基于客户档案、沟通记录与保单信息</small></div><em>92%</em></header>
+            <div class="intent-grid">
+              <span>搜索对象</span><p><b>客户</b></p>
+              <span>客户条件</span><p><b>高客</b><b>本月生日</b><b>30天未联系</b></p>
+              <span>排序方式</span><p>优先展示最值得联系的客户</p>
+            </div>
+            <div class="ai-followups"><button data-ai-refine="只看有体检意向的客户">＋ 有体检意向</button><button data-ai-refine="只看有未读消息的客户">＋ 有未读消息</button><button data-ai-refine="按最近联系排序">＋ 按最近联系</button></div>
+          </section>
           <div class="result-summary"><span>找到 8 条相关结果</span><button id="filterBtn">筛选⌄</button></div>
 
           <section class="result-group" data-kind="customer">
@@ -54,6 +73,7 @@
                 <div class="result-name"><b><mark>李玉真</mark></b><small>女 · 38岁</small><em>90℃</em></div>
                 <p>高客 · 三口之家 · 保单 5 件</p>
                 <div class="result-tags"><span>初次面谈</span><span>待回访</span><span>今日有新消息</span></div>
+                <div class="ai-match" hidden><i>✦</i><span>匹配：高客 · 本月生日 · 35天未联系</span><b>96%</b></div>
               </div>
               <button class="message-action" data-toast="已进入与李玉真的会话">发消息</button>
             </article>
@@ -106,11 +126,12 @@
     </section>
 
     <aside class="states" aria-label="页面状态说明">
-      <span class="scheme-kicker">PAGE STATES</span><h2>一套方案覆盖<br>四种核心状态</h2>
+      <span class="scheme-kicker">PAGE STATES</span><h2>一套方案覆盖<br>五种核心状态</h2>
       <button class="state active" data-state="result"><i>01</i><div><b>有结果</b><small>分组展示并高亮关键词</small></div></button>
       <button class="state" data-state="start"><i>02</i><div><b>搜索前</b><small>历史搜索与快捷条件</small></div></button>
       <button class="state" data-state="customer"><i>03</i><div><b>分类结果</b><small>聚焦客户，减少信息干扰</small></div></button>
       <button class="state" data-state="empty"><i>04</i><div><b>无结果</b><small>提供明确改写建议</small></div></button>
+      <button class="state" data-state="ai"><i>05</i><div><b>AI 搜索</b><small>理解意图、解释结果、继续追问</small></div></button>
       <div class="principle"><b>设计原则</b><p>首屏先给答案，再给筛选；标签使用业务语言，不让代理人理解系统术语。</p></div>
     </aside>
   </main>
