@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>客户搜索 · 设计方案</title>
+  <link rel="stylesheet" href="search-results.css">
+</head>
+<body>
+  <main class="search-demo">
+    <section class="scheme" aria-label="搜索方案说明">
+      <span class="scheme-kicker">SEARCH EXPERIENCE</span>
+      <h1>一个搜索入口，<br><em>找到客户，也找到对话。</em></h1>
+      <p>搜索姓名、手机号、标签或聊天内容，结果按客户、会话与群聊分组，关键词高亮并直接提供下一步动作。</p>
+      <div class="scheme-list">
+        <article><i>01</i><div><b>输入更轻松</b><small>历史搜索与常用条件减少重复输入</small></div></article>
+        <article><i>02</i><div><b>结果更清楚</b><small>分类计数、关键词高亮、信息分层</small></div></article>
+        <article><i>03</i><div><b>动作更直接</b><small>从结果直接发消息或查看客户详情</small></div></article>
+      </div>
+      <button class="replay" id="replayBtn">↻ 重置搜索演示</button>
+    </section>
+
+    <section class="device-stage" aria-label="客户搜索交互原型">
+      <div class="stage-meta"><span></span> INTERACTIVE SEARCH <em id="stageLabel">搜索结果 · 全部</em></div>
+      <div class="phone">
+        <header class="app-header">
+          <div class="statusbar"><b>9:41</b><span>▮▮▮ ◉ ▰</span></div>
+          <div class="titlebar"><button class="back" aria-label="返回">‹</button><strong>搜索</strong><span></span></div>
+          <div class="searchbox focused" id="searchBox">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m15.5 15.5 5 5"></path></svg>
+            <input id="searchInput" value="李玉真" placeholder="搜索客户姓名、手机号或聊天内容" autocomplete="off">
+            <button class="clear" id="clearBtn" aria-label="清空搜索">×</button>
+          </div>
+          <div class="quick-filters" aria-label="快捷筛选">
+            <button data-query="高客">高客</button><button data-query="本月生日">本月生日</button><button data-query="待回访">待回访</button>
+          </div>
+        </header>
+
+        <nav class="result-tabs" id="resultTabs" aria-label="搜索结果分类">
+          <button class="active" data-tab="all">全部 <span>8</span></button>
+          <button data-tab="customer">客户 <span>3</span></button>
+          <button data-tab="message">会话 <span>4</span></button>
+          <button data-tab="group">群聊 <span>1</span></button>
+        </nav>
+
+        <section class="results" id="results" aria-live="polite">
+          <div class="result-summary"><span>找到 8 条相关结果</span><button id="filterBtn">筛选⌄</button></div>
+
+          <section class="result-group" data-kind="customer">
+            <header><b>客户</b><span>3</span><button data-tab-link="customer">查看全部</button></header>
+            <article class="customer-card primary-result">
+              <div class="avatar avatar-li"></div>
+              <div class="result-main">
+                <div class="result-name"><b><mark>李玉真</mark></b><small>女 · 38岁</small><em>90℃</em></div>
+                <p>高客 · 三口之家 · 保单 5 件</p>
+                <div class="result-tags"><span>初次面谈</span><span>待回访</span><span>今日有新消息</span></div>
+              </div>
+              <button class="message-action" data-toast="已进入与李玉真的会话">发消息</button>
+            </article>
+            <article class="compact-row">
+              <div class="avatar avatar-rain"></div><div><b>李小雨</b><small>手机号 138****2516 · 最近联系 3 天前</small></div><span>›</span>
+            </article>
+            <article class="compact-row">
+              <div class="avatar avatar-agent"></div><div><b>李玉珍</b><small>客户阶段：递送保单 · 70℃</small></div><span>›</span>
+            </article>
+          </section>
+
+          <section class="result-group" data-kind="message">
+            <header><b>会话内容</b><span>4</span><button data-tab-link="message">查看全部</button></header>
+            <article class="message-row">
+              <div class="message-icon">企</div>
+              <div><b>李玉真</b><time>今天 09:15</time><p>最近忙，女儿下个月结婚，还没顾得上看报表……</p><small>来自客户会话</small></div>
+            </article>
+            <article class="message-row">
+              <div class="message-icon blue">我</div>
+              <div><b>与李玉真的会话</b><time>10月20日</time><p><mark>李姐</mark>，上次聊到体检，最近时间方便了吗？</p><small>来自我发送的消息</small></div>
+            </article>
+          </section>
+
+          <section class="result-group" data-kind="group">
+            <header><b>群聊</b><span>1</span></header>
+            <article class="compact-row group-row">
+              <div class="group-avatar"><i></i><i></i><i></i></div><div><b>高客服务群 · 李玉真</b><small>6 位成员 · 最近活跃于今天 08:43</small></div><span>›</span>
+            </article>
+          </section>
+        </section>
+
+        <section class="search-start" id="searchStart" hidden>
+          <div class="start-block"><header><b>最近搜索</b><button id="clearHistory">清空</button></header><div class="history-chips"><button>李玉真</button><button>本月生日</button><button>待回访</button></div></div>
+          <div class="start-block"><header><b>常用搜索</b></header><div class="common-grid"><button data-query="高客"><i>♛</i><span>高客客户<small>26 人</small></span></button><button data-query="本月生日"><i>♨</i><span>本月生日<small>5 人</small></span></button><button data-query="待回访"><i>✓</i><span>待回访<small>12 人</small></span></button><button data-query="体检"><i>＋</i><span>体检意向<small>8 人</small></span></button></div></div>
+          <div class="search-tip"><i>✦</i><p><b>搜索小技巧</b><small>除了姓名和手机号，也可以搜索“本月生日”“高客”等客户标签。</small></p></div>
+        </section>
+
+        <section class="empty-state" id="emptyState" hidden>
+          <div class="empty-visual"><span></span><i>⌕</i></div><h2>没有找到相关结果</h2><p>换个姓名、手机号或更短的关键词试试</p><button id="emptyReset">查看全部客户</button>
+        </section>
+
+        <div class="filter-sheet" id="filterSheet" hidden>
+          <button class="sheet-mask" id="sheetMask" aria-label="关闭筛选"></button>
+          <section><div class="sheet-handle"></div><header><b>筛选搜索结果</b><button id="closeSheet">×</button></header><label>客户阶段</label><div class="sheet-options"><button class="selected">全部</button><button>初次面谈</button><button>递送保单</button><button>客户服务</button></div><label>最近联系</label><div class="sheet-options"><button class="selected">不限</button><button>今天</button><button>7天内</button><button>30天内</button></div><footer><button id="resetFilter">重置</button><button class="confirm" id="confirmFilter">查看结果</button></footer></section>
+        </div>
+        <div class="toast" id="toast" hidden></div>
+        <div class="home-indicator"></div>
+      </div>
+      <p class="hint"><span>✦</span> 试试清空搜索、输入其他关键词或切换分类</p>
+    </section>
+
+    <aside class="states" aria-label="页面状态说明">
+      <span class="scheme-kicker">PAGE STATES</span><h2>一套方案覆盖<br>四种核心状态</h2>
+      <button class="state active" data-state="result"><i>01</i><div><b>有结果</b><small>分组展示并高亮关键词</small></div></button>
+      <button class="state" data-state="start"><i>02</i><div><b>搜索前</b><small>历史搜索与快捷条件</small></div></button>
+      <button class="state" data-state="customer"><i>03</i><div><b>分类结果</b><small>聚焦客户，减少信息干扰</small></div></button>
+      <button class="state" data-state="empty"><i>04</i><div><b>无结果</b><small>提供明确改写建议</small></div></button>
+      <div class="principle"><b>设计原则</b><p>首屏先给答案，再给筛选；标签使用业务语言，不让代理人理解系统术语。</p></div>
+    </aside>
+  </main>
+  <script src="search-results.js"></script>
+</body>
+</html>
