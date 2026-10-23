@@ -1,0 +1,93 @@
+.composer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 100%;
+  height: 72px;
+  padding: 8px 10px 16px;
+  display: block;
+  border: 0;
+  background: linear-gradient(180deg, rgba(247,249,252,0), #f7f9fc 48%);
+}
+
+.composer .composer-bar {
+  width: 100%;
+  height: 48px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  align-items: center;
+  background: #fff;
+  border-radius: 25px;
+  box-shadow: 0 8px 22px rgba(43, 66, 109, .16);
+}
+
+.composer button {
+  border: 0;
+  color: #17204d;
+  cursor: pointer;
+}
+
+.composer .voice-button {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 4px 0 12px rgba(43, 66, 109, .08);
+}
+
+.voice-button svg {
+  width: 27px;
+  height: 27px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.voice-button svg .solid { fill: currentColor; stroke: none; }
+
+.composer .composer-field {
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  overflow: hidden;
+  background: transparent;
+  color: #b8c0d0 !important;
+  font-size: 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.composer .plus-button {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  justify-self: center;
+  border: 2px solid #17204d !important;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.plus-button::before,
+.plus-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  border-radius: 2px;
+  background: #17204d;
+  transform: translate(-50%, -50%);
+}
+
+.plus-button::after { transform: translate(-50%, -50%) rotate(90deg); }
+.plus-button span { display: none; }
+.messages { height: calc(100% - 184px); }
+.xiaolan-panel { bottom: 74px; }
+.toast { bottom: 82px; }

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>小蓝 AI · 对话内智能回复</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="avatars.css">
+  <link rel="stylesheet" href="input-bar.css">
+  <link rel="stylesheet" href="profile-tags.css">
+  <link rel="stylesheet" href="cold-start.css">
+  <link rel="stylesheet" href="xiaolan-dock.css">
+</head>
+<body>
+  <main class="prototype-shell">
+    <section class="story-panel" aria-label="演示说明">
+      <div class="brand"><span class="brand-mark">✦</span><strong>小蓝 AI</strong></div>
+      <p class="eyebrow">AGENT CONVERSATION COPILOT</p>
+      <h1>对话不被打断，<br><span>智能恰好出现。</span></h1>
+      <p class="intro">从无历史会话的冷启动开始，小蓝先分析客户与跟进时机，再生成冬至开场话术，并持续承接客户回应。</p>
+      <div class="journey" id="journey">
+        <button class="journey-item active" data-jump="0"><i>01</i><span><b>冷启动</b><small>无历史会话，等待小蓝介入</small></span></button>
+        <button class="journey-item" data-jump="1"><i>02</i><span><b>客户分析</b><small>识别画像、关系温度与跟进时机</small></span></button>
+        <button class="journey-item" data-jump="2"><i>03</i><span><b>推荐话术</b><small>生成冬至开场，可编辑后发送</small></span></button>
+        <button class="journey-item" data-jump="3"><i>04</i><span><b>客户回应</b><small>理解回复并自然承接对话</small></span></button>
+        <button class="journey-item" data-jump="4"><i>05</i><span><b>机会推荐</b><small>把客户信号转为后续动作</small></span></button>
+      </div>
+      <button class="restart" id="restartBtn">↻ 重新演示</button>
+    </section>
+
+    <section class="phone-stage" aria-label="李玉真客户会话交互原型">
+      <div class="stage-label"><span></span> LIVE PROTOTYPE <em id="stageStatus">冷启动 · 无历史会话</em></div>
+      <div class="phone" id="phone">
+        <header class="chat-header">
+          <div class="statusbar"><time>9:41</time><span>▪▪▪ ⌑ ▰</span></div>
+          <div class="nav"><button aria-label="返回">‹</button><strong>李玉真</strong><button aria-label="更多">···</button></div>
+          <div class="profile-tags" aria-label="客户标签">
+            <span class="profile-tag">女 · 38岁</span>
+            <span class="profile-tag">三口之家</span>
+            <span class="profile-tag">初次面谈</span>
+            <span class="profile-tag profile-tag--temperature">50℃</span>
+            <span class="profile-tag">高客</span>
+            <span class="profile-tag">保单5件</span>
+          </div>
+        </header>
+        <section class="messages" id="messages" aria-live="polite">
+          <div class="cold-empty" id="coldEmpty">
+            <span class="cold-empty-dot"></span>
+            <p>暂无历史会话</p>
+            <small>小蓝正在结合客户画像准备开场</small>
+          </div>
+        </section>
+        <section class="xiaolan-panel" id="xiaolanPanel" hidden aria-live="polite"></section>
+        <section class="history-window" id="historyWindow" hidden aria-label="小蓝历史会话建议">
+          <header class="history-head">
+            <span class="history-avatar avatar-photo xiaolan-photo" aria-hidden="true"></span>
+            <div><b>小蓝</b><small>历史会话建议</small></div>
+            <button id="closeHistory" aria-label="关闭历史会话建议">×</button>
+          </header>
+          <div class="history-scroll">
+            <div class="history-context">
+              <span>最近一次会话 · 10月20日 09:15</span>
+              <p>李玉真表达了体检意向，尚未确认预约时间，建议从健康需求自然承接。</p>
+            </div>
+            <section class="history-section" aria-labelledby="copySuggestionTitle">
+              <div class="history-section-title"><i>✎</i><b id="copySuggestionTitle">话术推荐</b><span>2 条</span></div>
+              <button class="history-copy" data-copy="李姐，上次聊到体检，最近时间方便了吗？我可以帮您查一下周末的可预约场次。">
+                <small>延续体检意向</small><p>李姐，上次聊到体检，最近时间方便了吗？我可以帮您查一下周末的可预约场次。</p><em>使用</em>
+              </button>
+              <button class="history-copy" data-copy="李姐，今日冬至，白昼渐长，温暖可期。祝您和家人冬至安康，阖家幸福。">
+                <small>节日关怀</small><p>李姐，今日冬至，白昼渐长，温暖可期。祝您和家人冬至安康，阖家幸福。</p><em>使用</em>
+              </button>
+            </section>
+            <section class="history-section" aria-labelledby="actionSuggestionTitle">
+              <div class="history-section-title"><i>✓</i><b id="actionSuggestionTitle">动作推荐</b><span>3 项</span></div>
+              <div class="history-actions">
+                <button class="history-action selected" data-action="physical"><i>1</i><span><b>体检预约</b><small>权益可用 1 次</small></span></button>
+                <button class="history-action" data-action="event"><i>2</i><span><b>健康活动</b><small>心梗风险检测</small></span></button>
+                <button class="history-action" data-action="follow"><i>3</i><span><b>稍后回访</b><small>明日继续跟进</small></span></button>
+              </div>
+              <button class="history-generate" id="historyGenerate">根据动作生成话术</button>
+            </section>
+          </div>
+        </section>
+        <footer class="composer" aria-label="消息输入栏">
+          <div class="composer-bar">
+            <button class="voice-button" aria-label="语音输入">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="7.5" cy="12" r="1.4" class="solid"></circle><path d="M11 8.5c1.6 1.9 1.6 5.1 0 7M14.3 6.5c3 3.1 3 7.9 0 11"></path></svg>
+            </button>
+            <button class="composer-field" aria-label="输入消息">发消息...</button>
+            <button class="plus-button" aria-label="更多功能"><span></span></button>
+          </div>
+        </footer>
+        <button class="xiaolan-dock" id="xiaolanDock" hidden aria-label="打开小蓝历史会话建议" aria-expanded="false">
+          <span class="dock-avatar avatar-photo xiaolan-photo"></span><i>•••</i>
+        </button>
+        <div class="home-indicator"></div><div class="toast" id="toast" hidden></div>
+      </div>
+      <p class="gesture-hint"><span>✦</span> 冷启动后自动分析客户并生成开场话术</p>
+    </section>
+
+    <aside class="ability-panel">
+      <p class="eyebrow">XIAOLAN CAPABILITIES</p><h2>一次对话，四层智能</h2>
+      <div class="capability active"><i>✦</i><div><b>冷启动分析</b><p>没有历史会话，也能结合画像判断触达策略。</p></div></div>
+      <div class="capability"><i>⌘</i><div><b>客户洞察</b><p>把关系阶段、客户热度和跟进时机可视化。</p></div></div>
+      <div class="capability"><i>✎</i><div><b>话术生成</b><p>保持代理人语气，支持修改后发送。</p></div></div>
+      <div class="capability"><i>✓</i><div><b>动作承接</b><p>根据客户新意图，推荐体检预约等下一步。</p></div></div>
+      <div class="principle"><span>AI 介入原则</span><p>有回应再出现，有价值才建议；不替代代理人，只让每次沟通更自然。</p></div>
+    </aside>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

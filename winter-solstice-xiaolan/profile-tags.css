@@ -1,0 +1,55 @@
+/* MasterGo customer-tag component: 343 × 22, horizontal auto layout. */
+.chat-header {
+  container-type: inline-size;
+}
+
+.profile-tags {
+  width: min(343px, calc(100% - 24px));
+  min-width: 0;
+  min-height: 22px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #7e849f;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.profile-tags .profile-tag {
+  min-width: 0;
+  height: 18px;
+  padding: 0 clamp(4px, 1.55cqw, 6px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
+  border-radius: 5px;
+  background: #f7f8fa;
+  color: #7e849f;
+  font-size: clamp(7px, 2.15cqw, 8px);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.profile-tags .profile-tag--temperature {
+  flex-shrink: 0;
+  background: #fff1e9;
+  color: #ff752a;
+}
+
+@container (max-width: 330px) {
+  .profile-tags {
+    width: calc(100% - 16px);
+    gap: 2px;
+  }
+
+  .profile-tags .profile-tag {
+    padding-inline: 3px;
+    font-size: 7px;
+  }
+}

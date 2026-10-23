@@ -1,0 +1,40 @@
+.avatar-photo {
+  background-image: url('assets/social-avatars.png') !important;
+  background-size: 300% 100% !important;
+  background-repeat: no-repeat !important;
+  background-position-y: center !important;
+}
+
+.xiaolan-photo {
+  background-image: url('assets/xiaolan-avatar.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+.customer-avatar { background-position: 50% center !important; }
+.agent-avatar { background-position: 100% center !important; }
+
+.avatar.avatar-photo {
+  border-radius: 8px;
+  color: transparent;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #20334f20;
+}
+
+.ai-entry {
+  padding: 2px;
+  background: #fff;
+  overflow: visible;
+}
+
+.ai-entry > span.avatar-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 50% 12px;
+}
+
+.panel-top .mini-avatar.avatar-photo {
+  color: transparent;
+  background-color: #fff;
+  box-shadow: 0 2px 8px #20334f20;
+}
