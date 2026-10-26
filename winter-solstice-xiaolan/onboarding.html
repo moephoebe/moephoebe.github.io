@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#eef6ff">
+  <title>小蓝 AI · 客户经营引导</title>
+  <link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+  <main class="onboarding-demo">
+    <section class="narrative" aria-label="引导页设计说明">
+      <div class="brand"><span>✦</span><b>小蓝 AI</b></div>
+      <p class="eyebrow">CUSTOMER JOURNEY COPILOT</p>
+      <h1>从第一次触达，<br>到每一次<span>成交机会。</span></h1>
+      <p class="lead">小蓝贯穿客户经营全流程：发现值得联系的人，持续升温客户关系，并在真实意向出现时推荐下一步。</p>
+      <div class="journey-nav" role="tablist" aria-label="客户经营阶段">
+        <button class="active" data-go="0" role="tab" aria-selected="true"><i>01</i><span><b>触客唤醒</b><small>发现时机 · 自然开场</small></span></button>
+        <button data-go="1" role="tab" aria-selected="false"><i>02</i><span><b>养客升温</b><small>理解回应 · 持续跟进</small></span></button>
+        <button data-go="2" role="tab" aria-selected="false"><i>03</i><span><b>促成转化</b><small>识别意向 · 承接行动</small></span></button>
+      </div>
+      <button class="replay" id="replayBtn">↻ 重新播放</button>
+    </section>
+
+    <section class="device-stage" aria-label="小蓝客户经营三页引导原型">
+      <div class="stage-caption"><i></i> ONBOARDING PREVIEW <em id="stageName">触客唤醒</em></div>
+      <div class="phone" id="phone">
+        <div class="statusbar"><b>9:41</b><span>▮▮▮ ◉ ▰</span></div>
+        <button class="skip" id="skipBtn">跳过</button>
+        <div class="slides" id="slides">
+          <article class="slide wake active" data-index="0" aria-label="触客唤醒">
+            <header class="slide-copy">
+              <span class="step-label">小蓝赋能 · 触客唤醒</span>
+              <h2>找对时机，<br><strong>让客户愿意回应</strong></h2>
+              <p>小蓝识别节日、生日和长期未联系等机会，帮你找到今天最值得联系的客户。</p>
+            </header>
+            <div class="visual wake-visual" aria-label="客户触达机会示意">
+              <div class="ambient-orb orb-one"></div><div class="ambient-orb orb-two"></div>
+              <div class="phone-sheet">
+                <div class="mini-head"><b>今日触达机会</b><span>3 位客户</span></div>
+                <div class="mini-customer"><span class="portrait p1"></span><div><b>李玉真</b><small>35天未联系 · 高客</small></div><em>优先</em></div>
+                <div class="mini-customer"><span class="portrait p2"></span><div><b>王丽</b><small>今日生日 · 待回访</small></div><em>推荐</em></div>
+                <div class="mini-customer faded"><span class="portrait p3"></span><div><b>张伟</b><small>节气关怀 · 潜客</small></div></div>
+              </div>
+              <div class="ai-float wake-ai"><span class="xiaolan"></span><div><b>适合温暖唤醒</b><p>从冬至问候自然开场，不急于谈产品</p></div></div>
+              <div class="copy-chip">✦ 已准备个性化开场话术</div>
+            </div>
+          </article>
+
+          <article class="slide warm" data-index="1" aria-label="养客升温">
+            <header class="slide-copy">
+              <span class="step-label">小蓝赋能 · 养客升温</span>
+              <h2>读懂回应，<br><strong>让关系持续升温</strong></h2>
+              <p>小蓝理解客户每次回复，判断关系温度，并实时推荐更自然的话术和服务动作。</p>
+            </header>
+            <div class="visual warm-visual" aria-label="客户关系升温示意">
+              <div class="temperature-card">
+                <div><span>关系温度</span><b>68<sup>℃</sup></b><em>+18℃</em></div>
+                <div class="temp-track"><i></i><i></i><i></i><i></i><i></i></div>
+                <small>客户积极回应，适合延续关怀</small>
+              </div>
+              <div class="chat-stack">
+                <div class="chat agent">李姐，冬至安康，最近过得怎么样？</div>
+                <div class="chat customer"><span class="portrait p2"></span><p>谢谢你啊，还记得我。</p></div>
+              </div>
+              <div class="ai-float insight-ai"><span class="xiaolan"></span><div><b>小蓝已读懂回应</b><p>客户感受到被重视，先自然寒暄，继续建立信任。</p></div></div>
+              <div class="suggestion-row"><button>自然寒暄</button><button>节日关怀</button><button>稍后回访</button></div>
+            </div>
+          </article>
+
+          <article class="slide convert" data-index="2" aria-label="促成转化">
+            <header class="slide-copy">
+              <span class="step-label">小蓝赋能 · 促成转化</span>
+              <h2>抓住意向，<br><strong>让机会顺势成交</strong></h2>
+              <p>客户出现真实需求时，小蓝匹配权益与产品，推荐最合适的下一步，推动机会落地。</p>
+            </header>
+            <div class="visual convert-visual" aria-label="客户意向转化示意">
+              <div class="signal-bubble"><span class="portrait p2"></span><p>最近想去体检，周末有时间。</p></div>
+              <div class="signal-line"><i></i><span>识别到健康服务意向</span><i></i></div>
+              <div class="action-panel">
+                <header><span class="xiaolan"></span><div><b>已找到 3 个跟进机会</b><small>结合客户权益与当前需求</small></div></header>
+                <button class="selected"><i>1</i><span><b>预约高端体检</b><small>权益可用 1 次 · 周末可约</small></span><em>首选</em></button>
+                <button><i>2</i><span><b>推荐健康活动</b><small>心梗风险检测 · 本周六</small></span></button>
+                <button><i>3</i><span><b>生成跟进话术</b><small>自然承接客户需求</small></span></button>
+              </div>
+              <div class="conversion-chip">✓ 从客户信号到行动建议，已完成</div>
+            </div>
+          </article>
+        </div>
+
+        <footer class="onboarding-footer">
+          <div class="dots" aria-label="当前页面"><button class="active" data-go="0" aria-label="第1页"></button><button data-go="1" aria-label="第2页"></button><button data-go="2" aria-label="第3页"></button></div>
+          <button class="next" id="nextBtn"><span>下一步</span><i>→</i></button>
+        </footer>
+        <div class="home-indicator"></div>
+      </div>
+      <p class="hint"><span>✦</span> 点击“下一步”、分页点或左侧阶段切换页面</p>
+    </section>
+
+    <aside class="value-panel" aria-label="小蓝能力说明">
+      <p class="eyebrow">XIAOLAN VALUE</p>
+      <h2>每一页，<br>只讲清一个价值</h2>
+      <div class="value-list">
+        <article class="active" data-value="0"><i>01</i><div><b>今天联系谁</b><p>由客户时机和经营优先级给出答案。</p></div></article>
+        <article data-value="1"><i>02</i><div><b>下一句怎么说</b><p>基于客户回应和关系温度自然承接。</p></div></article>
+        <article data-value="2"><i>03</i><div><b>下一步做什么</b><p>把意向信号转成可执行的经营动作。</p></div></article>
+      </div>
+      <div class="principle"><b>文案原则</b><p>先说代理人获得的结果，再说明小蓝如何做到；少用系统术语，突出客户经营场景。</p></div>
+    </aside>
+  </main>
+  <script src="onboarding.js"></script>
+</body>
+</html>
