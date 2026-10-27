@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="profile-tags.css">
   <link rel="stylesheet" href="cold-start.css">
   <link rel="stylesheet" href="xiaolan-dock.css">
+  <link rel="stylesheet" href="timeline.css">
+  <link rel="stylesheet" href="customer-grid.css">
 </head>
 <body>
   <main class="prototype-shell">
@@ -17,7 +19,7 @@
       <div class="brand"><span class="brand-mark">✦</span><strong>小蓝 AI</strong></div>
       <p class="eyebrow">AGENT CONVERSATION COPILOT</p>
       <h1>对话不被打断，<br><span>智能恰好出现。</span></h1>
-      <p class="intro">从无历史会话的冷启动开始，小蓝先分析客户与跟进时机，再生成冬至开场话术，并持续承接客户回应。</p>
+      <p class="intro">从无历史会话的冷启动开始，小蓝先分析客户与跟进时机，再生成冬至开场话术；发送前可回看互动时光轴，也能查看小蓝自动更新的客户九宫格。</p>
       <div class="journey" id="journey">
         <button class="journey-item active" data-jump="0"><i>01</i><span><b>冷启动</b><small>无历史会话，等待小蓝介入</small></span></button>
         <button class="journey-item" data-jump="1"><i>02</i><span><b>客户分析</b><small>识别画像、关系温度与跟进时机</small></span></button>
@@ -96,15 +98,17 @@
         </button>
         <div class="home-indicator"></div><div class="toast" id="toast" hidden></div>
       </div>
-      <p class="gesture-hint"><span>✦</span> 冷启动后自动分析客户并生成开场话术</p>
+      <p class="gesture-hint"><span>✦</span> 小蓝弹窗内可切换“时光轴”和“九宫格”</p>
     </section>
 
     <aside class="ability-panel">
-      <p class="eyebrow">XIAOLAN CAPABILITIES</p><h2>一次对话，四层智能</h2>
+      <p class="eyebrow">XIAOLAN CAPABILITIES</p><h2>一次对话，六层智能</h2>
       <div class="capability active"><i>✦</i><div><b>冷启动分析</b><p>没有历史会话，也能结合画像判断触达策略。</p></div></div>
       <div class="capability"><i>⌘</i><div><b>客户洞察</b><p>把关系阶段、客户热度和跟进时机可视化。</p></div></div>
       <div class="capability"><i>✎</i><div><b>话术生成</b><p>保持代理人语气，支持修改后发送。</p></div></div>
       <div class="capability"><i>✓</i><div><b>动作承接</b><p>根据客户新意图，推荐体检预约等下一步。</p></div></div>
+      <div class="capability"><i>◷</i><div><b>客户时光轴</b><p>随时回看计划书、活动邀约和服务互动轨迹。</p></div></div>
+      <div class="capability"><i>▦</i><div><b>信息九宫格</b><p>从客户回复中识别爱好、健康、家庭等关键信息。</p></div></div>
       <div class="principle"><span>AI 介入原则</span><p>有回应再出现，有价值才建议；不替代代理人，只让每次沟通更自然。</p></div>
     </aside>
   </main>
