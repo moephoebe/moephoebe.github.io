@@ -40,7 +40,7 @@ function setStep(index,text){
   hideDock();
   closeHistoryWindow();
   journey.forEach((el,i)=>el.classList.toggle('active',i===index));
-  const capabilityIndex=[0,1,2,2,3][index]??0;
+  const capabilityIndex=[0,1,2,2,3,5][index]??0;
   capabilities.forEach((el,i)=>el.classList.toggle('active',i===capabilityIndex));
   stageStatus.textContent=text;
 }
@@ -65,9 +65,13 @@ function timelineContent(){return `<div class="timeline-toolbar"><div><b>客户�
 function gridContent(){
   const entries=Object.entries(customerGrid);const filled=entries.filter(([,item])=>item.progress>0).length;
   const updatedItem=customerGrid[latestGridUpdate.key];
-  return `<div class="grid-toolbar"><div><b>客户信息九宫格</b><small>完整度 ${filled}/9 · 小蓝自动识别更新</small></div><span class="grid-score">${filled}/9</span></div>${gridUpdated?`<div class="grid-update"><i>✦</i><span><b>本次对话新增 ${latestGridUpdate.count} 条信息</b><small>${updatedItem.label}：${updatedItem.summary}</small></span></div>`:''}<div class="nine-grid">${entries.map(([key,item])=>`<button class="grid-card ${item.progress?'filled':'empty'} ${item.tone||''} ${key===latestGridUpdate.key&&gridUpdated?'updated selected':''}" data-grid-key="${key}" data-grid-title="${item.label}" data-grid-detail="${item.detail}" aria-label="${item.label} ${item.progress?`完整度 ${item.progress}%`:'待补充'}"><span><b>${item.label}</b>${key===latestGridUpdate.key&&gridUpdated?'<em>新</em>':''}</span><strong>${item.progress?`完整度 ${item.progress}%`:'待补充 ›'}</strong><small>${item.summary}</small><i style="--progress:${item.progress}%"></i></button>`).join('')}</div><div class="grid-detail"><span>✦</span><p><b>${gridUpdated?`${updatedItem.label}已自动更新`:'点击任一格查看记录依据'}</b><small>${gridUpdated?updatedItem.detail:'客户对话中的关键信息会由小蓝识别并记录。'}</small></p></div>`
+  const updatedKeys=latestGridUpdate.keys||[latestGridUpdate.key];
+  const updateLabel=updatedKeys.length>1?updatedKeys.map(key=>customerGrid[key].label).join('、'):`${updatedItem?.label}：${updatedItem?.summary}`;
+  const updateTitle=updatedKeys.length>1?`${updatedKeys.length} 个信息格已确认更新`:`${updatedItem?.label}已自动更新`;
+  return `<div class="grid-toolbar"><div><b>客户信息九宫格</b><small>完整度 ${filled}/9 · 小蓝自动识别更新</small></div><span class="grid-score">${filled}/9</span></div>${gridUpdated?`<div class="grid-update"><i>✦</i><span><b>本次对话新增 ${latestGridUpdate.count} 条信息</b><small>${updateLabel}</small></span></div>`:''}<div class="nine-grid">${entries.map(([key,item])=>`<button class="grid-card ${item.progress?'filled':'empty'} ${item.tone||''} ${updatedKeys.includes(key)&&gridUpdated?'updated selected':''}" data-grid-key="${key}" data-grid-title="${item.label}" data-grid-detail="${item.detail}" aria-label="${item.label} ${item.progress?`完整度 ${item.progress}%`:'待补充'}"><span><b>${item.label}</b>${updatedKeys.includes(key)&&gridUpdated?'<em>新</em>':''}</span><strong>${item.progress?`完整度 ${item.progress}%`:'待补充 ›'}</strong><small>${item.summary}</small><i style="--progress:${item.progress}%"></i></button>`).join('')}</div><div class="grid-detail"><span>✦</span><p><b>${gridUpdated?updateTitle:'点击任一格查看记录依据'}</b><small>${gridUpdated?(updatedKeys.length>1?'点击上方任一信息格，可查看识别内容及其对话来源。':updatedItem.detail):'客户对话中的关键信息会由小蓝识别并记录。'}</small></p></div>`
 }
 function shell(body){return `<div class="panel-top"><span class="mini-avatar avatar-photo xiaolan-photo" aria-label="小蓝头像"></span><b>小蓝</b><button class="close-panel" aria-label="关闭">×</button></div><div class="panel-tabs" role="tablist"><button class="active" data-panel-tab="assistant" role="tab" aria-selected="true">智能建议</button><button data-panel-tab="timeline" role="tab" aria-selected="false"><i>◷</i> 时光轴 <em>8</em></button><button data-panel-tab="grid" role="tab" aria-selected="false"><i>▦</i> 九宫格 ${gridUpdated?'<em class="new-dot">新</em>':''}</button></div><div class="panel-body"><div class="panel-view assistant-view">${body}</div><div class="panel-view timeline-view" hidden>${timelineContent()}</div><div class="panel-view grid-view" hidden>${gridContent()}</div></div>`}
+function flowShell(body){return `<div class="panel-top"><span class="mini-avatar avatar-photo xiaolan-photo" aria-label="小蓝头像"></span><b>小蓝</b><button class="close-panel" aria-label="关闭">×</button></div><div class="flow-panel-body">${body}</div>`}
 function bindClose(){panel.querySelector('.close-panel')?.addEventListener('click',closePanel);bindPanelTabs()}
 function bindPanelTabs(){
   const tabButtons=[...panel.querySelectorAll('[data-panel-tab]')];
@@ -122,8 +126,16 @@ function emptyState(){return `<div class="cold-empty" id="coldEmpty"><span class
 function skeleton(){return `<div class="cold-skeleton" aria-label="分析加载中"><i></i><i></i><i></i></div>`}
 function analysisCard(label='客户分析',copy=customerAnalysis){return `<div class="cold-card cold-analysis-card" data-label="${label}">${copy}</div>`}
 
+function resetCustomerGrid(){
+  gridUpdated=false;latestGridUpdate={key:'',count:0};
+  Object.assign(customerGrid.health,{progress:0,summary:'待了解',detail:'暂无明确健康需求信息。'});
+  Object.assign(customerGrid.income,{progress:0,summary:'待了解',detail:'暂无明确收入信息，可在需求沟通中自然了解。'});
+  Object.assign(customerGrid.career,{progress:30,summary:'工作较忙',detail:'客户曾提到近期工作忙，具体职业与发展阶段待补充。',tone:'warm'});
+  Object.assign(customerGrid.family,{progress:70,summary:'女儿即将结婚',detail:'三口之家，女儿近期筹备婚礼，家庭责任与保障需求较高。',tone:'warm'});
+  Object.assign(customerGrid.policy,{progress:100,summary:'持有保单 5 件',detail:'现有保单 5 件，已具备较完整的基础保障。',tone:'warm'});
+}
 function reset(){
-  clearTimers();selectedAction='physical';gridUpdated=false;latestGridUpdate={key:'',count:0};customerGrid.health.progress=0;customerGrid.health.summary='待了解';customerGrid.health.detail='暂无明确健康需求信息。';panel.hidden=true;hideDock();clearComposerDraft();toastEl.hidden=true;
+  clearTimers();selectedAction='physical';resetCustomerGrid();panel.hidden=true;hideDock();clearComposerDraft();toastEl.hidden=true;
   messages.innerHTML=emptyState();setStep(0,'冷启动 · 无历史会话');
   later(showColdAnalysisLoading,520);
 }
@@ -214,7 +226,7 @@ function sendFirst(text){
   later(()=>{const reply=appendMessage('customer','挺好的，最近想去体检','aiEntry2');updateCustomerGrid('health','近期想去体检',80,'客户主动表示近期想体检，健康需求明确，适合承接体检权益。',1);setStep(4,'已更新健康格 · 点击小蓝头像');reply.querySelector('#aiEntry2').addEventListener('click',()=>{reply.querySelector('#aiEntry2').hidden=true;showThinking()})},800);
 }
 
-function updateCustomerGrid(key,summary,progress,detail,count=1){const item=customerGrid[key];if(!item)return;gridUpdated=true;latestGridUpdate={key,count};item.progress=progress;item.summary=summary;item.detail=detail;toast(`小蓝已将新信息更新至「${item.label}」`)}
+function updateCustomerGrid(key,summary,progress,detail,count=1){const item=customerGrid[key];if(!item)return;gridUpdated=true;latestGridUpdate={key,keys:[key],count};item.progress=progress;item.summary=summary;item.detail=detail;toast(`小蓝已将新信息更新至「${item.label}」`)}
 
 function showThinking(){
   clearTimers();panel.hidden=false;setStep(4,'思考中…');
@@ -259,6 +271,54 @@ function showCompletionSummary(){
 function jumpToResponse(){clearTimers();panel.hidden=true;buildOpeningThread(true);setStep(3,'客户已回应 · 正在分析');later(openFirst,350)}
 function jumpToActions(){clearTimers();panel.hidden=true;buildOpeningThread(false);appendMessage('customer','谢谢你啊，还记得我。');appendMessage('agent','当然记得啊，最近过得怎么样？');appendMessage('customer','挺好的，最近想去体检');updateCustomerGrid('health','近期想去体检',80,'客户主动表示近期想体检，健康需求明确，适合承接体检权益。',1);showActions()}
 
+function appendGridCapturePrompt(){
+  const button=document.createElement('button');button.className='grid-capture-prompt';button.id='gridCapturePrompt';
+  button.innerHTML='<span>信息已识别 <b>45%</b> · 请确认</span><i>▦</i>';
+  button.addEventListener('click',showGridRecognitionLoading);messages.appendChild(button);scrollChat();
+}
+
+function jumpToGridCapture(){
+  clearTimers();resetCustomerGrid();panel.hidden=true;hideDock();clearComposerDraft();beginThread();
+  appendMessage('customer','我最近升职为国企管理人员，之前买过太保的医疗险、沪惠保。');
+  setStep(5,'识别到客户关键信息 · 等待确认');appendGridCapturePrompt();
+}
+
+function showGridRecognitionLoading(){
+  clearTimers();document.querySelector('#gridCapturePrompt')?.setAttribute('hidden','');panel.hidden=false;stageStatus.textContent='小蓝正在识别关键信息';
+  panel.innerHTML=flowShell(`<div class="grid-flow-loading"><div class="grid-flow-orbit"><span>AI</span></div><b>正在理解客户回复</b><p>提取可写入客户画像的事实信息</p><div class="grid-flow-steps"><span class="done"><i>✓</i>读取当前会话与客户档案</span><span class="active"><i>·</i>识别事业、保障与家庭线索</span><span><i>·</i>校验信息置信度与冲突</span></div></div>`);bindClose();
+  later(()=>showGridRecognitionReview(),1050);
+}
+
+function showGridRecognitionReview(){
+  panel.hidden=false;stageStatus.textContent='已识别关键信息 · 请代理人确认';
+  panel.innerHTML=flowShell(`<div class="recognition-summary"><i>AI</i><p>已从客户回复中识别：<b>国企管理人员</b>，曾购买<b>医疗险、沪惠保</b>。结合历史沟通还发现 2 组待确认信息，确认后才会写入九宫格。<a href="#">不会自动覆盖原档案</a></p></div><div class="recognition-map"><span class="recognition-meter">画像完整度 45%</span><span class="recognition-chip chip-career">国企管理人员</span><span class="recognition-chip chip-policy">医疗险 · 沪惠保</span><span class="recognition-chip chip-family">2 个儿子</span><span class="recognition-chip chip-income">可投资约 700 万</span><span class="recognition-chip soft chip-risk">风险承受较高</span><span class="recognition-chip soft chip-personality">个性待了解</span><span class="recognition-avatar avatar-photo xiaolan-photo"></span></div><section class="pending-update"><header><i>!</i><span>待确认信息</span><button id="skipGridUpdate">不更新</button><button class="primary" id="confirmGridUpdate">确认更新</button></header><p>家庭：2 个儿子，分别 2 岁、4 岁<br>收入：外企员工，预计可投资约 700 万</p><small>信息来自历史沟通摘要，与当前档案存在差异，请代理人确认。</small></section>`);bindClose();
+  panel.querySelector('#skipGridUpdate').addEventListener('click',skipGridUpdate);
+  panel.querySelector('#confirmGridUpdate').addEventListener('click',confirmGridUpdate);
+}
+
+function skipGridUpdate(){
+  stageStatus.textContent='已跳过 · 客户档案未修改';
+  panel.innerHTML=flowShell(`<div class="grid-skip"><i>✓</i><b>已保留原客户信息</b><p>待确认内容没有写入九宫格，后续仍可从客户档案中再次处理。</p><div class="panel-actions"><button class="primary" id="returnGridReview">返回确认</button></div></div>`);bindClose();
+  panel.querySelector('#returnGridReview').addEventListener('click',showGridRecognitionReview);
+}
+
+function confirmGridUpdate(){
+  const confirmButton=panel.querySelector('#confirmGridUpdate');panel.querySelectorAll('.pending-update button').forEach(button=>button.disabled=true);confirmButton.textContent='更新中…';stageStatus.textContent='正在写入客户九宫格';
+  later(()=>{
+    Object.assign(customerGrid.career,{progress:100,summary:'国企管理人员',detail:'客户在本次会话中明确表示近期升职为国企管理人员。',tone:'warm'});
+    Object.assign(customerGrid.policy,{progress:100,summary:'医疗险 · 沪惠保',detail:'客户在本次会话中明确表示曾购买太保医疗险和沪惠保。',tone:'warm'});
+    Object.assign(customerGrid.family,{progress:100,summary:'2 个儿子 · 2岁/4岁',detail:'代理人已确认：客户有两个儿子，分别为 2 岁和 4 岁。',tone:'warm'});
+    Object.assign(customerGrid.income,{progress:80,summary:'可投资约 700 万',detail:'代理人已确认：客户预计可投资金额约 700 万。',tone:'warm'});
+    gridUpdated=true;latestGridUpdate={key:'career',keys:['career','policy','family','income'],count:6};showGridUpdateResult();
+  },750);
+}
+
+function showGridUpdateResult(){
+  stageStatus.textContent='更新完成 · 4 个信息格已完善';toast('客户九宫格已更新');
+  panel.innerHTML=shell(`<div class="grid-result-summary"><b>✓ 关键信息已写入九宫格</b>本次完善事业、保单、家庭与收入 4 个信息格，所有更新均保留对话来源。</div><div class="grid-result-list"><span><b>事业格 100%</b>国企管理人员</span><span><b>保单格 100%</b>医疗险 · 沪惠保</span><span><b>家庭格 100%</b>2 个儿子</span><span><b>收入格 80%</b>可投资约 700 万</span></div><div class="panel-actions"><button class="primary" data-open-grid>查看完整九宫格</button></div>`);bindClose();
+  panel.querySelector('[data-open-grid]').addEventListener('click',()=>panel.querySelector('[data-panel-tab="grid"]').click());
+}
+
 dockButton.addEventListener('click',toggleHistoryWindow);
 document.querySelector('#closeHistory').addEventListener('click',closeHistoryWindow);
 historyWindow.querySelectorAll('.history-copy').forEach(btn=>btn.addEventListener('click',()=>setComposerDraft(btn.dataset.copy)));
@@ -282,5 +342,6 @@ journey.forEach((item,i)=>item.addEventListener('click',()=>{
   if(i===2){messages.innerHTML=emptyState();showColdReady()}
   if(i===3)jumpToResponse();
   if(i===4)jumpToActions();
+  if(i===5)jumpToGridCapture();
 }));
 reset();
